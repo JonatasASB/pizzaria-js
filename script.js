@@ -42,8 +42,6 @@ pizzaJson.map((item, index) => {
             }, 300
         )
     })
-
-
     dq('.pizza-area').append(pizzaItem)
 });
 
@@ -57,3 +55,22 @@ function closeModal() {
 dqAll('.pizzaInfo--cancelButton, .pizzaInfo--cancelMobileButton').forEach(item =>
     item.addEventListener('click', closeModal)
 )
+
+dq('.pizzaInfo--qtmais').addEventListener('click', () => {
+    modalQt++;
+    dq('.pizzaInfo--qt').innerHTML = modalQt
+});
+
+dq('.pizzaInfo--qtmenos').addEventListener('click', () => {
+    if (modalQt > 1) {
+        modalQt--;
+        dq('.pizzaInfo--qt').innerHTML = modalQt
+    }
+});
+
+dqAll('.pizzaInfo--size').forEach(item => {
+    item.addEventListener('click', () => {
+        dq('.pizzaInfo--size.selected').classList.remove('selected')
+        item.classList.add('selected')
+    })
+});
