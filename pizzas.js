@@ -1,6 +1,6 @@
 let pizzaJson = [
     { id: 1, name: 'Brocolis', img: 'images/brocolis.png', price: 20.19, sizes: ['100g', '530g', '860g'], description: 'Uma combinação deliciosa de brócolis frescos, queijo cremoso e um toque de alho, trazendo leveza e sabor.' },
-    { id: 2, name: 'Cogumelos', img: 'images/cogumelos.png', price: 18.00, sizes: ['320g', '530g', '860g'], description: 'Sabor terroso e sofisticado, com cogumelos salteados e queijo derretido em uma base crocante e irresistível.' },
+    { id: 2, name: 'Cogumelo', img: 'images/cogumelos.png', price: 18.00, sizes: ['320g', '530g', '860g'], description: 'Sabor terroso e sofisticado, com cogumelos salteados e queijo derretido em uma base crocante e irresistível.' },
     { id: 3, name: 'Italiana', img: 'images/italiana.png', price: 17.45, sizes: ['320g', '530g', '860g'], description: 'Inspirada na tradição, com presunto de parma, rúcula fresca e parmesão, trazendo um toque gourmet à sua pizza.' },
     { id: 4, name: 'Marguerita', img: 'images/marguerita.png', price: 19.77, sizes: ['320g', '530g', '860g'], description: 'O clássico italiano com molho de tomate fresco, muçarela derretida e manjericão, simples e irresistível.' },
     { id: 5, name: 'Mexicana', img: 'images/mexicana.png', price: 21.43, sizes: ['320g', '530g', '860g'], description: 'Uma pizza picante e cheia de personalidade, com pimentões, carne temperada e um toque de jalapeños.' },

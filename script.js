@@ -64,14 +64,14 @@ dqAll('.pizzaInfo--cancelButton, .pizzaInfo--cancelMobileButton').forEach(item =
 dq('.pizzaInfo--qtmais').addEventListener('click', () => {
     modalQt++;
     dq('.pizzaInfo--qt').innerHTML = modalQt
-    value = dq('.pizzaInfo--actualPrice').innerHTML = `R$: ${(pizzaJson[modalKey].price * modalQt).toFixed(2)}`
+    dq('.pizzaInfo--actualPrice').innerHTML = `R$: ${(pizzaJson[modalKey].price * modalQt).toFixed(2)}`
 });
 
 dq('.pizzaInfo--qtmenos').addEventListener('click', () => {
     if (modalQt > 1) {
         modalQt--;
         dq('.pizzaInfo--qt').innerHTML = modalQt
-        value = dq('.pizzaInfo--actualPrice').innerHTML = `R$: ${(pizzaJson[modalKey].price * modalQt).toFixed(2)}`
+        dq('.pizzaInfo--actualPrice').innerHTML = `R$: ${(pizzaJson[modalKey].price * modalQt).toFixed(2)}`
     }
 });
 
@@ -85,7 +85,7 @@ dqAll('.pizzaInfo--size').forEach(item => {
 dq('.pizzaInfo--addButton').addEventListener('click', () => {
     let flavor = pizzaJson[modalKey].name
 
-    let size = parseInt(pizzaJson[modalKey].sizes[dq('.pizzaInfo--size.selected').getAttribute('data-key')])
+    let size = parseInt(dq('.pizzaInfo--size.selected').getAttribute('data-key'))
 
     let identifier = flavor + '__' + size;
 
@@ -98,11 +98,56 @@ dq('.pizzaInfo--addButton').addEventListener('click', () => {
             identifier,
             id: flavor,
             size,
-            amount: modalQt,
-            value
+            amount: modalQt
         })
     }
-
+    updateCart();
     closeModal();
 
-})
+});
+
+function updateCart() {
+    if (cart.length > 0) {
+        dq('.cart').innerHTML = '';
+        dq('aside').classList.add('show')
+        for (let i in cart) {
+
+            let cartItem = dq('.models .cart--item').cloneNode(true);
+
+            let sizeName;
+            switch (cart[i].size) {
+                case 0:
+                    sizeName = 'P'
+                    break;
+                case 1:
+                    sizeName = 'M'
+                    break;
+                case 2:
+                    sizeName = 'G'
+                    break;
+            }
+
+            let pizzaName = `${cart[i].id} - (${sizeName})`
+
+            cartItem.querySelector('img').src = pizzaJson.find((item) => item.name == cart[i].id).img;
+            cartItem.querySelector('.cart--item-nome').innerHTML = pizzaName;
+            cartItem.querySelector('.cart--item--qt').innerHTML = cart[i].amount;
+
+            cartItem.querySelector('.cart--item-qtmais').addEventListener('click', () => {
+                cart[i].amount++
+                updateCart()
+            });
+
+            cartItem.querySelector('.cart--item-qtmais').addEventListener('click', () => {
+                if (cart[i].amount > 1) {
+                    cart[i].amount--
+                    updateCart()
+                }
+            })
+
+            dq('.cart').append(cartItem)
+        }
+    } else {
+        dq('aside').classList.remove('show')
+    }
+}
