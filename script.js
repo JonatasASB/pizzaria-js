@@ -84,11 +84,20 @@ dq('.pizzaInfo--addButton').addEventListener('click', () => {
 
     let size = parseInt(pizzaJson[modalKey].sizes[dq('.pizzaInfo--size.selected').getAttribute('data-key')])
 
-    cart.push({
-        id: flavor,
-        size,
-        amount: modalQt
-    })
+    let identifier = flavor + '__' + size;
+
+    let verifyid = cart.findIndex(item => item.identifier == identifier)
+
+    if (verifyid > -1) {
+        cart[verifyid].amount += modalQt
+    } else {
+        cart.push({
+            identifier,
+            id: flavor,
+            size,
+            amount: modalQt
+        })
+    }
 
     closeModal();
 
