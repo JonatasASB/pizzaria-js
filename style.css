@@ -245,6 +245,7 @@ h1 {
 .pizzaInfo--price {
     display: flex;
     align-items: center;
+    justify-content: space-around;
 }
 
 .pizzaInfo--actualPrice {

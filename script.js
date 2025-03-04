@@ -1,6 +1,7 @@
 let modalQt = 1
 let cart = [];
 let modalKey = 0;
+let value = 0
 
 const dq = (element) => document.querySelector(element)
 const dqAll = (elements) => document.querySelectorAll(elements)
@@ -63,12 +64,14 @@ dqAll('.pizzaInfo--cancelButton, .pizzaInfo--cancelMobileButton').forEach(item =
 dq('.pizzaInfo--qtmais').addEventListener('click', () => {
     modalQt++;
     dq('.pizzaInfo--qt').innerHTML = modalQt
+    value = dq('.pizzaInfo--actualPrice').innerHTML = `R$: ${(pizzaJson[modalKey].price * modalQt).toFixed(2)}`
 });
 
 dq('.pizzaInfo--qtmenos').addEventListener('click', () => {
     if (modalQt > 1) {
         modalQt--;
         dq('.pizzaInfo--qt').innerHTML = modalQt
+        value = dq('.pizzaInfo--actualPrice').innerHTML = `R$: ${(pizzaJson[modalKey].price * modalQt).toFixed(2)}`
     }
 });
 
@@ -95,7 +98,8 @@ dq('.pizzaInfo--addButton').addEventListener('click', () => {
             identifier,
             id: flavor,
             size,
-            amount: modalQt
+            amount: modalQt,
+            value
         })
     }
 
