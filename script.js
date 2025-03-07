@@ -1,7 +1,8 @@
 let modalQt = 1
 let cart = [];
 let modalKey = 0;
-let value = 0
+let value = 0;
+
 
 const dq = (element) => document.querySelector(element)
 const dqAll = (elements) => document.querySelectorAll(elements)
@@ -10,16 +11,16 @@ const dqAll = (elements) => document.querySelectorAll(elements)
 pizzaJson.map((item, index) => {
     let pizzaItem = dq('.pizza-item').cloneNode(true);
 
-    pizzaItem.setAttribute('data-key', index)
+    pizzaItem.setAttribute('data-key', index)//Atributo setado em pizza-item no html
     pizzaItem.querySelector('.pizza-item--name').innerHTML = item.name;
     pizzaItem.querySelector('.pizza-item--desc').innerHTML = item.description;
-    pizzaItem.querySelector('.pizza-item--price').innerHTML = `R$: ${item.price.toFixed(2)}`
+    pizzaItem.querySelector('.pizza-item--price').innerHTML = `R$: ${item.price[2].toFixed(2)}`
     pizzaItem.querySelector('.pizza-item--img img').src = item.img;
 
 
 
     pizzaItem.querySelector('a').addEventListener('click', (event) => {
-        event.preventDefault()
+        event.preventDefault()//Previne a ação nativa de <a> que é ir para o endereço de ir para o href
 
         let key = event.target.closest('.pizza-item').getAttribute('data-key');
         modalQt = 1;
@@ -28,7 +29,14 @@ pizzaJson.map((item, index) => {
         dq('.pizzaBig img').src = pizzaJson[key].img
         dq('.pizzaInfo h1').innerHTML = pizzaJson[key].name;
         dq('.pizzaInfo--desc').innerHTML = pizzaJson[key].description;
-        dq('.pizzaInfo--actualPrice').innerHTML = `R$: ${pizzaJson[key].price.toFixed(2)}`
+        dqAll('.pizzaInfo--size').forEach(item => {
+
+            let sizeKey = item.getAttribute('data-key')
+            let selectedPrice = pizzaJson[modalKey].price[sizeKey]
+
+            dq('.pizzaInfo--actualPrice').innerHTML = `R$: ${(selectedPrice * modalQt).toFixed(2)}`
+
+        })
         dq('.pizzaInfo--size.selected').classList.remove('selected')
         dqAll('.pizzaInfo--size').forEach((size, sizeIndex) => {
             if (sizeIndex == 2) {
@@ -64,14 +72,21 @@ dqAll('.pizzaInfo--cancelButton, .pizzaInfo--cancelMobileButton').forEach(item =
 dq('.pizzaInfo--qtmais').addEventListener('click', () => {
     modalQt++;
     dq('.pizzaInfo--qt').innerHTML = modalQt
-    dq('.pizzaInfo--actualPrice').innerHTML = `R$: ${(pizzaJson[modalKey].price * modalQt).toFixed(2)}`
+    let sizeKey = dq('.pizzaInfo--size.selected').getAttribute('data-key')
+    let selectedPrice = pizzaJson[modalKey].price[sizeKey]
+    dq('.pizzaInfo--actualPrice').innerHTML = `R$: ${(selectedPrice * modalQt).toFixed(2)}`
+
 });
 
 dq('.pizzaInfo--qtmenos').addEventListener('click', () => {
     if (modalQt > 1) {
         modalQt--;
         dq('.pizzaInfo--qt').innerHTML = modalQt
-        dq('.pizzaInfo--actualPrice').innerHTML = `R$: ${(pizzaJson[modalKey].price * modalQt).toFixed(2)}`
+        let sizeKey = dq('.pizzaInfo--size.selected').getAttribute('data-key')
+
+        let selectedPrice = pizzaJson[modalKey].price[sizeKey]
+        dq('.pizzaInfo--actualPrice').innerHTML = `R$: ${(selectedPrice * modalQt).toFixed(2)}`
+
     }
 });
 
@@ -79,6 +94,11 @@ dqAll('.pizzaInfo--size').forEach(item => {
     item.addEventListener('click', () => {
         dq('.pizzaInfo--size.selected').classList.remove('selected')
         item.classList.add('selected')
+
+        let sizeKey = item.getAttribute('data-key')
+        let selectedPrice = pizzaJson[modalKey].price[sizeKey]
+
+        dq('.pizzaInfo--actualPrice').innerHTML = `R$: ${(selectedPrice * modalQt).toFixed(2)}`
     })
 });
 
@@ -125,8 +145,11 @@ function updateCart() {
         let discount = 0;
         let total = 0;
         for (let i in cart) {
-            subtotal += pizzaJson.find((item) => item.name == cart[i].id).price * cart[i].amount
 
+            let pizza = pizzaJson.find(item => item.name == cart[i].id);
+
+            let pizzaPrice = pizza.price[cart[i].size];
+            subtotal += pizzaPrice * cart[i].amount;
             let cartItem = dq('.models .cart--item').cloneNode(true);
 
             let sizeName;
