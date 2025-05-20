@@ -241,3 +241,4 @@ function updateCart() {
         dq('aside').style.left = '100vw'
     }
 }
+console.log('testando push no github')
